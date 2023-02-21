@@ -5,10 +5,18 @@ interface Props {
   dice: Dice[]
   saveTime: (time: number) => void
   setRolls: React.Dispatch<React.SetStateAction<number>>
+  time: number
+  setTime: React.Dispatch<React.SetStateAction<number>>
 }
 
-export default function Timer({ tenzies, dice, saveTime, setRolls }: Props) {
-  const [time, setTime] = useState(0)
+export default function Timer({
+  tenzies,
+  dice,
+  saveTime,
+  setRolls,
+  time,
+  setTime,
+}: Props) {
   const [running, setRunning] = useState(false)
   const [gameStart, setGameStart] = useState(false)
 
@@ -19,10 +27,10 @@ export default function Timer({ tenzies, dice, saveTime, setRolls }: Props) {
       setGameStart(false)
       saveTime(time)
     } else if (!tenzies && dice.every((el) => el.isHeld === false)) {
-      setTime(0)
+      // setTime(0)
       setRolls(0)
-      setRunning(false)
-      setGameStart(false)
+      // setRunning(false)
+      // setGameStart(false)
     }
 
     if (!gameStart && dice.some((el) => el.isHeld === true)) {
@@ -31,7 +39,7 @@ export default function Timer({ tenzies, dice, saveTime, setRolls }: Props) {
     }
   }, [tenzies, dice])
 
-  let interval: number
+  let interval: ReturnType<typeof setInterval>
   useEffect(() => {
     if (running) {
       interval = setInterval(() => {

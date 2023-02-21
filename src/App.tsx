@@ -13,6 +13,8 @@ function App() {
   const [rolls, setRolls] = useState<number>(0)
   const [bestTime, setBestTime] = useState<number>(999999999999)
 
+  const [time, setTime] = useState(0)
+
   useEffect(() => {
     const allHeld = dice.every((die) => die.isHeld)
     const firstValue = dice[0].value
@@ -70,6 +72,10 @@ function App() {
     }
   }
 
+  function resetTime() {
+    setTime(0)
+  }
+
   const diceElements = dice.map((die) => (
     <Die
       value={die.value}
@@ -100,7 +106,11 @@ function App() {
       </div>
 
       <button onClick={rollDice} className="roll-dice">
-        {tenzies ? <span>New Game</span> : <span>Roll dice</span>}
+        {tenzies ? (
+          <span onClick={resetTime}>New Game</span>
+        ) : (
+          <span>Roll dice</span>
+        )}
       </button>
       <div className="details">
         <div className="rolls">
@@ -112,6 +122,8 @@ function App() {
             dice={dice}
             saveTime={saveTime}
             setRolls={setRolls}
+            time={time}
+            setTime={setTime}
           />
         </div>
         <div className="bestTime">
