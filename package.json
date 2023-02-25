@@ -1,13 +1,16 @@
 {
-  "homepage": "./",
+  "homepage": "https://Ech0ke.github.io/tenziesGame/",
   "name": "tenzies_game",
   "private": true,
-  "version": "0.0.0",
+  "version": "1.1.0",
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "tsc && vite build",
+    "build": "vite build",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d dist",
     "preview": "vite preview"
+    
   },
   "dependencies": {
     "lottie-react": "^2.3.1",
