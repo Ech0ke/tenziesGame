@@ -4,38 +4,30 @@ interface Props {
   tenzies: boolean
   dice: Dice[]
   saveTime: (time: number) => void
-  setRolls: React.Dispatch<React.SetStateAction<number>>
   time: number
   setTime: React.Dispatch<React.SetStateAction<number>>
+  running: boolean
+  setRunning: React.Dispatch<React.SetStateAction<boolean>>
 }
 
 export default function Timer({
   tenzies,
   dice,
   saveTime,
-  setRolls,
   time,
   setTime,
+  running,
+  setRunning,
 }: Props) {
-  const [running, setRunning] = useState(false)
-  const [gameStart, setGameStart] = useState(false)
-
   useEffect(() => {
     console.log("hu")
     if (tenzies) {
       setRunning(false)
-      setGameStart(false)
       saveTime(time)
-    } else if (!tenzies && dice.every((el) => el.isHeld === false)) {
-      // setTime(0)
-      setRolls(0)
-      // setRunning(false)
-      // setGameStart(false)
     }
 
-    if (!gameStart && dice.some((el) => el.isHeld === true)) {
+    if (!running && dice.some((el) => el.isHeld === true)) {
       setRunning(true)
-      setGameStart(true)
     }
   }, [tenzies, dice])
 

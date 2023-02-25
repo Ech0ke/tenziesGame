@@ -14,6 +14,7 @@ function App() {
   const [bestTime, setBestTime] = useState<number>(999999999999)
 
   const [time, setTime] = useState(0)
+  const [running, setRunning] = useState<boolean>(false)
 
   useEffect(() => {
     const allHeld = dice.every((die) => die.isHeld)
@@ -42,7 +43,14 @@ function App() {
   }
 
   function rollDice() {
-    if (!tenzies) {
+    if (!tenzies && dice.every((die) => die.isHeld === false) && time == 0) {
+      setRolls(0)
+      setDice((oldDice) =>
+        oldDice.map((die) =>
+          die.isHeld ? die : { ...die, value: randomDieValue() }
+        )
+      )
+    } else if (!tenzies) {
       setRolls(rolls + 1)
 
       setDice((oldDice) =>
@@ -76,6 +84,13 @@ function App() {
     setTime(0)
   }
 
+  function restartGame() {
+    setRunning(false)
+    setTime(0)
+    setDice(allNewDice())
+    setRolls(0)
+  }
+
   const diceElements = dice.map((die) => (
     <Die
       value={die.value}
@@ -104,14 +119,20 @@ function App() {
           )}
         </div>
       </div>
-
-      <button onClick={rollDice} className="roll-dice">
-        {tenzies ? (
-          <span onClick={resetTime}>New Game</span>
-        ) : (
-          <span>Roll dice</span>
+      <div className="buttons">
+        <button onClick={rollDice} className="roll-dice">
+          {tenzies ? (
+            <span onClick={resetTime}>New Game</span>
+          ) : (
+            <span>Roll dice</span>
+          )}
+        </button>
+        {!tenzies && time != 0 && (
+          <button onClick={restartGame} className="reset-dice">
+            <span>Restart</span>
+          </button>
         )}
-      </button>
+      </div>
       <div className="details">
         <div className="rolls">
           Number of rolls: <b>{rolls}</b>
@@ -121,9 +142,10 @@ function App() {
             tenzies={tenzies}
             dice={dice}
             saveTime={saveTime}
-            setRolls={setRolls}
             time={time}
             setTime={setTime}
+            running={running}
+            setRunning={setRunning}
           />
         </div>
         <div className="bestTime">
