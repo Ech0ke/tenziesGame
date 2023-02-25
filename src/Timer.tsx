@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from "react"
 import { Dice } from "./models/DiceModel"
+import TimeDisplay from "./TimeDisplay"
 interface Props {
   tenzies: boolean
   dice: Dice[]
@@ -20,7 +21,6 @@ export default function Timer({
   setRunning,
 }: Props) {
   useEffect(() => {
-    console.log("hu")
     if (tenzies) {
       setRunning(false)
       saveTime(time)
@@ -29,7 +29,7 @@ export default function Timer({
     if (!running && dice.some((el) => el.isHeld === true)) {
       setRunning(true)
     }
-  }, [tenzies, dice])
+  }, [tenzies, dice, time])
 
   let interval: ReturnType<typeof setInterval>
   useEffect(() => {
@@ -47,9 +47,7 @@ export default function Timer({
       <span>
         <i>Time: </i>
       </span>
-      <span>{("0" + Math.floor((time / 60000) % 60)).slice(-2)}:</span>
-      <span>{("0" + Math.floor((time / 1000) % 60)).slice(-2)}:</span>
-      <span>{("0" + ((time / 10) % 100)).slice(-2)}</span>
+      <TimeDisplay time={time} />
     </div>
   )
 }

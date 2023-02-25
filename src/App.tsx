@@ -6,6 +6,7 @@ import "./style.css"
 import Lottie from "lottie-react"
 import Hand from "./models/hand.json"
 import Timer from "./Timer"
+import TimeDisplay from "./TimeDisplay"
 
 function App() {
   const [dice, setDice] = useState(allNewDice())
@@ -22,7 +23,6 @@ function App() {
     const allSameValue = dice.every((die) => die.value === firstValue)
     if (allHeld && allSameValue) {
       setTenzies(true)
-      console.log("You won")
     }
   }, [dice])
 
@@ -71,13 +71,14 @@ function App() {
         die.id === id ? { ...die, isHeld: !die.isHeld } : die
       )
     )
-    console.log(id)
   }
 
   function saveTime(time: number) {
-    if (time < bestTime) {
-      setBestTime(time)
-    }
+    setTimeout(() => {
+      if (time < bestTime) {
+        setBestTime(time)
+      }
+    }, 100)
   }
 
   function resetTime() {
@@ -102,7 +103,7 @@ function App() {
 
   return (
     <main>
-      {tenzies && <Confetti />}
+      {tenzies && <Confetti className="confetti" />}
       <h1 className="title">Tenzies</h1>
       <p className="instructions">
         Roll until all dice are the <u>same</u>. Click each die to freeze it at
@@ -141,7 +142,7 @@ function App() {
           <Timer
             tenzies={tenzies}
             dice={dice}
-            saveTime={saveTime}
+            saveTime={(e) => saveTime(e)}
             time={time}
             setTime={setTime}
             running={running}
@@ -153,14 +154,7 @@ function App() {
             <>Best time: 00:00:00 </>
           ) : (
             <>
-              Best time:{" "}
-              <span>
-                {("0" + Math.floor((bestTime / 60000) % 60)).slice(-2)}:
-              </span>
-              <span>
-                {("0" + Math.floor((bestTime / 1000) % 60)).slice(-2)}:
-              </span>
-              <span>{("0" + ((bestTime / 10) % 100)).slice(-2)}</span>
+              Best time: <TimeDisplay time={bestTime} />
             </>
           )}
         </div>
