@@ -19,7 +19,7 @@ main {
   /* height: 450px; */
   max-width: 800px;
   background-color: whitesmoke;
-  padding: 1rem;
+  padding: 1rem 1rem 0.5rem 1rem;
   margin-inline: auto;
   border-radius: 5px;
   display: flex;
@@ -195,6 +195,14 @@ p {
 
 .bestTime {
   text-align: right;
+}
+
+.version {
+  width: 100%;
+  margin: 1rem 0 0 0;
+  text-decoration: none;
+  color: gray;
+  font-weight: lighter;
 }
 
 @media screen and (max-width: 490px) {

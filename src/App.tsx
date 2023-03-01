@@ -151,6 +151,7 @@ function App() {
           )}
         </div>
       </div>
+      <span className="version">V1.1.0</span>
     </main>
   )
 }
