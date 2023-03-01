@@ -26,7 +26,6 @@ function App() {
     }
   }, [dice])
 
-  useEffect(() => {})
   function randomDieValue(): number {
     return Math.ceil(Math.random() * 6)
   }
@@ -62,6 +61,7 @@ function App() {
       setTenzies(false)
       setDice(allNewDice())
       setRolls(0)
+      setTime(0)
     }
   }
 
@@ -79,10 +79,6 @@ function App() {
         setBestTime(time)
       }
     }, 100)
-  }
-
-  function resetTime() {
-    setTime(0)
   }
 
   function restartGame() {
@@ -122,11 +118,7 @@ function App() {
       </div>
       <div className="buttons">
         <button onClick={rollDice} className="roll-dice">
-          {tenzies ? (
-            <span onClick={resetTime}>New Game</span>
-          ) : (
-            <span>Roll dice</span>
-          )}
+          {tenzies ? <span>New Game</span> : <span>Roll dice</span>}
         </button>
         {!tenzies && time != 0 && (
           <button onClick={restartGame} className="reset-dice">
